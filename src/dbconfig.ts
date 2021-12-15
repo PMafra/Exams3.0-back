@@ -15,6 +15,6 @@ export default async function connect() {
     ssl: process.env.NODE_ENV === 'production',
   });
   await connection.connect();
-  logger.info('db connected');
+  logger.info(`Connected to db ${process.env.DATABASE_URL.split('/').splice(-1)}`);
   return connection;
 }
