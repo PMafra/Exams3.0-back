@@ -1,3 +1,4 @@
+import './setup';
 import express from 'express';
 import cors from 'cors';
 import middlewareError from './middlewares/errors';

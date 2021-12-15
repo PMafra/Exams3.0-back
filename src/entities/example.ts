@@ -10,6 +10,4 @@ class Example {
     name: string;
 }
 
-export {
-  Example,
-};
+export default Example;

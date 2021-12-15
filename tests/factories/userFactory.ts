@@ -1,6 +1,7 @@
 import faker from 'faker';
-import connection from '../../src/dbconfig';
-import { IUser as IUserInterface } from '../../src/interfaces/user';
+import { getRepository } from 'typeorm';
+import Example from '../../src/entities/example';
+import { IUserDB } from '../../src/interfaces/user';
 
 class User {
   name: string;
@@ -21,17 +22,18 @@ const generateRandomUser = () => ({
   group: faker.datatype.string(),
 });
 
-const insertUser = async ({
-  name, token,
-}: IUserInterface) => {
-  await connection.query(
-    'INSERT INTO "users" (name, token) VALUES ($1, $2);',
-    [name, token],
-  );
-};
+async function createUser(): Promise<IUserDB> {
+  const user = await getRepository(Example).create({
+    name: 'Pedro Mafra',
+  });
+
+  await getRepository(Example).save(user);
+
+  return user;
+}
 
 export {
-  insertUser,
+  createUser,
   User,
   generateRandomUser,
 };
