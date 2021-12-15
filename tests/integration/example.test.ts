@@ -1,16 +1,19 @@
 import '../../src/setup';
 import supertest from 'supertest';
+import { getConnection } from 'typeorm';
 import clearDatabase from '../helpers/clearDatabase';
-import app from '../../src/app';
-import connection from '../../src/dbconfig';
+import app, { init } from '../../src/app';
 
 const agent = supertest(app);
 
 beforeEach(async () => {
   await clearDatabase();
 });
-afterAll(() => {
-  connection.end();
+beforeAll(async () => {
+  await init();
+});
+afterAll(async () => {
+  await getConnection().close();
 });
 
 describe('GET /example', () => {

@@ -56,7 +56,9 @@
     "faker": "^5.5.3",
     "joi": "^17.5.0",
     "pg": "^8.7.1",
+    "reflect-metadata": "^0.1.13",
     "supertest": "^6.1.6",
+    "typeorm": "^0.2.41",
     "uuid": "^8.3.2",
     "winston": "^3.3.3"
   }

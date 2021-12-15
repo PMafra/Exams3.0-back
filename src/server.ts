@@ -1,4 +1,9 @@
 import './setup';
-import app from './app';
+import app, { init } from './app';
+import { logger } from './utils/logger';
 
-app.listen(process.env.PORT || 4000);
+init().then(() => {
+  app.listen(4000, () => {
+    logger.info('Server is listening on port 4000');
+  });
+});

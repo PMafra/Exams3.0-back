@@ -1,27 +1,14 @@
 /* eslint-disable radix */
-import pg from 'pg';
+import { getConnectionManager } from 'typeorm';
 
-const { Pool } = pg;
-
-let databaseConfig;
-
-if (process.env.NODE_ENV === 'production') {
-  databaseConfig = {
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  };
-} else {
-  databaseConfig = {
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT),
-    database: process.env.DB_DATABASE,
-  };
+export default async function connect() {
+  const connectionManager = await getConnectionManager();
+  const connection = connectionManager.create({
+    name: 'default',
+    type: 'postgres',
+    url: 'postgres://postgres:123456@localhost:5432/exams_dev',
+    entities: ['src/entities/*.ts'],
+  });
+  await connection.connect();
+  return connection;
 }
-
-const connection = new Pool(databaseConfig);
-
-export default connection;

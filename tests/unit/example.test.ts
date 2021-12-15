@@ -1,7 +1,16 @@
 import '../../src/setup';
 // import { QueryResult } from 'pg';
+import { getConnection } from 'typeorm';
 import * as validationService from '../../src/services/validationService';
 import RequestError from '../../src/errors/requestError';
+import { init } from '../../src/app';
+
+beforeAll(async () => {
+  await init();
+});
+afterAll(async () => {
+  await getConnection().close();
+});
 
 const sut = validationService;
 
