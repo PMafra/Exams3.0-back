@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import * as exampleController from '../controllers/exampleController';
+import * as filterController from '../controllers/filterController';
 import auth from '../middlewares/auth';
 
 const router = Router();
 
+router.get('/schools', filterController.getSchools);
 router.use(auth);
-router.get('', exampleController.example);
 
 export default router;

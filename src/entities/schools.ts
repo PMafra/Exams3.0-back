@@ -1,13 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('example')
-class Example {
+@Entity('schools')
+class School {
   @PrimaryGeneratedColumn()
 
     id: number;
 
   @Column()
-    name: string;
+    school: string;
 }
 
-export default Example;
+export default School;
