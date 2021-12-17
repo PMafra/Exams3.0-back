@@ -6,6 +6,7 @@ const router = Router();
 
 router.get('/schools', filterController.getSchools);
 router.get('/categories', filterController.getCategories);
+router.get('/professors', filterController.getProfessorsBySchool);
 router.use(auth);
 
 export default router;

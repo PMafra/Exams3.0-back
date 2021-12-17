@@ -22,7 +22,21 @@ const getCategories = async (req: Request, res: Response, next: NextFunction) =>
   }
 };
 
+const getProfessorsBySchool = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const {
+      chosenSchool: school,
+    } = req.body;
+    const professorsList = await filterService.obtainProfessorsBySchool(school);
+    return res.send(professorsList);
+  } catch (error) {
+    logger.error(error);
+    return next(error);
+  }
+};
+
 export {
   getSchools,
   getCategories,
+  getProfessorsBySchool,
 };
