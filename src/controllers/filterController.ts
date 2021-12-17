@@ -37,8 +37,23 @@ const getProfessorsBySchool = async (req: Request, res: Response, next: NextFunc
   }
 };
 
+const getSubjectsBySchool = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const {
+      chosenSchool: school,
+    } = req.body;
+
+    const subjectsList = await filterService.obtainSubjectsBySchool(school);
+    return res.send(subjectsList);
+  } catch (error) {
+    logger.error(error);
+    return next(error);
+  }
+};
+
 export {
   getSchools,
   getCategories,
   getProfessorsBySchool,
+  getSubjectsBySchool,
 };

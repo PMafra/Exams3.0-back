@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 import {
-  Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne,
+  Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne,
 } from 'typeorm';
 import SchoolEntity from './schools';
 import ProfessorEntity from './professors';
@@ -11,9 +11,6 @@ class ProfessorSubjectSchoolEntity {
   @PrimaryGeneratedColumn()
 
     id: number;
-
-  @Column()
-    category: string;
 
     @ManyToOne(() => SchoolEntity, (school) => school.id, { eager: true })
     @JoinColumn({ name: 'school_id' })

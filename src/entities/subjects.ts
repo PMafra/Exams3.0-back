@@ -8,7 +8,6 @@ import ProfessorSubjectSchoolEntity from './professorsSubjectsSchools';
 @Entity('subjects')
 class SubjectEntity {
   @PrimaryGeneratedColumn()
-
     id: number;
 
   @Column()
