@@ -16,7 +16,7 @@ async function obtainCategories() {
 }
 async function obtainProfessorsBySchool() {
   const professorsList = await getRepository(ProfessorSubjectSchoolEntity).find({
-    school,
+
   });
 
   return professorsList;
