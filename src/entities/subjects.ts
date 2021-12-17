@@ -5,16 +5,16 @@ import {
 } from 'typeorm';
 import ProfessorSubjectSchoolEntity from './professorsSubjectsSchools';
 
-@Entity('schools')
-class SchoolEntity {
+@Entity('subjects')
+class SubjectEntity {
   @PrimaryGeneratedColumn()
     id: number;
 
   @Column()
-    school: string;
+    subject: string;
 
-  @OneToMany(() => ProfessorSubjectSchoolEntity, (professorSubjectSchool) => professorSubjectSchool.school)
-    professorsSubjectsSchools: ProfessorSubjectSchoolEntity;
+  @OneToMany(() => ProfessorSubjectSchoolEntity, (professorSubjectSchool) => professorSubjectSchool.subject)
+    professorSubjectSchool: ProfessorSubjectSchoolEntity;
 }
 
-export default SchoolEntity;
+export default SubjectEntity;
