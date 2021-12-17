@@ -1,4 +1,4 @@
-import { getRepository, getManager } from 'typeorm';
+import { getRepository } from 'typeorm';
 import SchoolEntity from '../entities/schools';
 import CategoryEntity from '../entities/categories';
 import ProfessorSubjectSchoolEntity from '../entities/professors';
