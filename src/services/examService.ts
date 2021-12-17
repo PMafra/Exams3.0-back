@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
@@ -17,7 +18,7 @@ async function obtainFilteredExams(filters: any) {
 
   const subjectsList = await getManager().query(`
     SELECT subjects.subject, subjects.id FROM professors_subjects_schools JOIN subjects ON subjects.id = professors_subjects_schools.subject_id JOIN schools ON schools.id = professors_subjects_schools.school_id WHERE schools.school = $1;
-  `, [school]);
+  `, []);
 
   const uniqueSubjectsList = getUniqueList(subjectsList);
 
