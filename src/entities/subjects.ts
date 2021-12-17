@@ -15,7 +15,7 @@ class SubjectEntity {
     subject: string;
 
   @OneToMany(() => ProfessorSubjectSchoolEntity, (professorSubjectSchool) => professorSubjectSchool.subject)
-    professorsSubjectsSchools: ProfessorSubjectSchoolEntity;
+    professorSubjectSchool: ProfessorSubjectSchoolEntity;
 }
 
 export default SubjectEntity;

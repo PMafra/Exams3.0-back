@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Request, Response, NextFunction } from 'express';
 import { logger } from '../utils/logger';
 import * as filterService from '../services/filterService';
@@ -27,6 +28,7 @@ const getProfessorsBySchool = async (req: Request, res: Response, next: NextFunc
     const {
       chosenSchool: school,
     } = req.body;
+
     const professorsList = await filterService.obtainProfessorsBySchool(school);
     return res.send(professorsList);
   } catch (error) {
