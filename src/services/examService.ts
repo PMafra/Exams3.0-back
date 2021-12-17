@@ -15,14 +15,21 @@ async function obtainFilteredExams(filters: any) {
     chosenProfessor,
     chosenSubject,
   } = filters;
+  console.log(filters);
 
-  const subjectsList = await getManager().query(`
-    SELECT subjects.subject, subjects.id FROM professors_subjects_schools JOIN subjects ON subjects.id = professors_subjects_schools.subject_id JOIN schools ON schools.id = professors_subjects_schools.school_id WHERE schools.school = $1;
-  `, []);
+  let examsList;
 
-  const uniqueSubjectsList = getUniqueList(subjectsList);
-
-  return uniqueSubjectsList;
+  if (chosenProfessor) {
+    examsList = await getManager().query(`
+        SELECT exams.title, exams.link FROM exams JOIN categories ON categories.id = exams.category_id JOIN professors_subjects_schools ON professors_subjects_schools.id = exams.professor_subject_school_id JOIN schools ON schools.id = professors_subjects_schools.school_id JOIN professors ON professors.id = professors_subjects_schools.professor_id WHERE schools.school = $1 AND categories.category = $2 AND professors.professor = $3;
+  `, [chosenSchool, chosenCategory, chosenProfessor]);
+  } else {
+    examsList = await getManager().query(`
+        SELECT exams.title, exams.link FROM exams JOIN categories ON categories.id = exams.category_id JOIN professors_subjects_schools ON professors_subjects_schools.id = exams.professor_subject_school_id JOIN schools ON schools.id = professors_subjects_schools.school_id JOIN subjects ON subjects.id = professors_subjects_schools.subject_id WHERE schools.school = $1 AND categories.category = $2 AND subjects.subject = $3;
+  `, [chosenSchool, chosenCategory, chosenSubject]);
+  }
+  console.log(examsList);
+  return examsList;
 }
 
 export {

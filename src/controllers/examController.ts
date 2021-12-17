@@ -5,7 +5,8 @@ import * as examService from '../services/examService';
 
 const getFilteredExams = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const examsList = await examService.obtainFilteredExams(req.body);
+    const { filters } = req.body;
+    const examsList = await examService.obtainFilteredExams(filters);
     return res.send(examsList);
   } catch (error) {
     logger.error(error);
