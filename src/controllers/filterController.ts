@@ -12,6 +12,17 @@ const getSchools = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getCategories = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const categoriesList = await filterService.obtainCategories();
+    return res.send(categoriesList);
+  } catch (error) {
+    logger.error(error);
+    return next(error);
+  }
+};
+
 export {
   getSchools,
+  getCategories,
 };
