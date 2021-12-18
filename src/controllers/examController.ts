@@ -14,6 +14,17 @@ const getFilteredExams = async (req: Request, res: Response, next: NextFunction)
   }
 };
 
+const addNewExam = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await examService.insertNewExam(req.body);
+    return res.sendStatus(201);
+  } catch (error) {
+    logger.error(error);
+    return next(error);
+  }
+};
+
 export {
   getFilteredExams,
+  addNewExam,
 };
