@@ -1,18 +1,19 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import { getRepository, getManager } from 'typeorm';
+import { getManager } from 'typeorm';
 import SchoolEntity from '../entities/schools';
 import CategoryEntity from '../entities/categories';
+import { selector } from '../infra/selectors';
 
 async function obtainSchools() {
-  const schoolsList = await getRepository(SchoolEntity).find();
+  const schoolsList = await selector(SchoolEntity);
 
   return schoolsList;
 }
 
 async function obtainCategories() {
-  const categoriesList = await getRepository(CategoryEntity).find();
+  const categoriesList = await selector(CategoryEntity);
 
   return categoriesList;
 }
