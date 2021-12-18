@@ -17,22 +17,39 @@ async function obtainCategories() {
   return categoriesList;
 }
 
-async function obtainProfessorsBySchool(school: string) {
-  const professorsList = await getManager().query(`
-    SELECT professors.professor, schools.school FROM professors_subjects_schools JOIN professors ON professors.id = professors_subjects_schools.professor_id JOIN schools ON schools.id = professors_subjects_schools.school_id WHERE schools.school = $1;
-  `, [school]);
-
-  return professorsList;
-}
-
 function getUniqueList(arr: any[]) {
   return [...new Map(arr.slice().reverse().map((key: any) => [key.id, key])).values()].reverse();
 }
 
-async function obtainSubjectsBySchool(school: string) {
-  const subjectsList = await getManager().query(`
+async function obtainProfessorsByFilter(body: any) {
+  const school = body?.chosenSchool;
+  const subject = body?.chosenSubject;
+  let professorsList;
+  if (school && !subject) {
+    professorsList = await getManager().query(`
+    SELECT professors.professor, schools.school FROM professors_subjects_schools JOIN professors ON professors.id = professors_subjects_schools.professor_id JOIN schools ON schools.id = professors_subjects_schools.school_id WHERE schools.school = $1;
+  `, [school]);
+  }
+  if (school && subject) {
+    professorsList = await getManager().query(`
+    SELECT professors.professor, professors.id FROM professors_subjects_schools JOIN professors ON professors.id = professors_subjects_schools.professor_id JOIN schools ON schools.id = professors_subjects_schools.school_id JOIN subjects ON subjects.id = professors_subjects_schools.subject_id WHERE schools.school = $1 AND subjects.subject = $2;
+  `, [school, subject]);
+  }
+
+  const uniqueProfessorsList = getUniqueList(professorsList);
+
+  return uniqueProfessorsList;
+}
+
+async function obtainSubjectsByFilter(body: any) {
+  const school = body?.chosenSchool;
+  let subjectsList;
+
+  if (school) {
+    subjectsList = await getManager().query(`
     SELECT subjects.subject, subjects.id FROM professors_subjects_schools JOIN subjects ON subjects.id = professors_subjects_schools.subject_id JOIN schools ON schools.id = professors_subjects_schools.school_id WHERE schools.school = $1;
   `, [school]);
+  }
 
   const uniqueSubjectsList = getUniqueList(subjectsList);
 
@@ -42,6 +59,6 @@ async function obtainSubjectsBySchool(school: string) {
 export {
   obtainSchools,
   obtainCategories,
-  obtainProfessorsBySchool,
-  obtainSubjectsBySchool,
+  obtainProfessorsByFilter,
+  obtainSubjectsByFilter,
 };

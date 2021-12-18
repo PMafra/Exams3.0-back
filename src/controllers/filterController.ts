@@ -23,13 +23,9 @@ const getCategories = async (req: Request, res: Response, next: NextFunction) =>
   }
 };
 
-const getProfessorsBySchool = async (req: Request, res: Response, next: NextFunction) => {
+const getProfessorsByFilter = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const {
-      chosenSchool: school,
-    } = req.body;
-
-    const professorsList = await filterService.obtainProfessorsBySchool(school);
+    const professorsList = await filterService.obtainProfessorsByFilter(req.body);
     return res.send(professorsList);
   } catch (error) {
     logger.error(error);
@@ -37,13 +33,9 @@ const getProfessorsBySchool = async (req: Request, res: Response, next: NextFunc
   }
 };
 
-const getSubjectsBySchool = async (req: Request, res: Response, next: NextFunction) => {
+const getSubjectsByFilter = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const {
-      chosenSchool: school,
-    } = req.body;
-
-    const subjectsList = await filterService.obtainSubjectsBySchool(school);
+    const subjectsList = await filterService.obtainSubjectsByFilter(req.body);
     return res.send(subjectsList);
   } catch (error) {
     logger.error(error);
@@ -54,6 +46,6 @@ const getSubjectsBySchool = async (req: Request, res: Response, next: NextFuncti
 export {
   getSchools,
   getCategories,
-  getProfessorsBySchool,
-  getSubjectsBySchool,
+  getProfessorsByFilter,
+  getSubjectsByFilter,
 };
