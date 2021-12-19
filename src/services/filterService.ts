@@ -26,16 +26,8 @@ function getUniqueListById(arr: any[]) {
 async function obtainProfessorsByFilter(filters: any) {
   const school = filters?.school;
   const subject = filters?.subject;
-  // professorsList = await getRepository(ProfessorSubjectSchoolEntity).find({
-  //   select: [
-  //     'professor',
-  //   ],
-  //   where: {
-  //     school: { school },
-  //   },
-  //   relations: ['school', 'professor'],
-  // });
   let professorsList;
+
   if (school && !subject) {
     professorsList = await getRepository(ProfessorSubjectSchoolEntity)
       .createQueryBuilder('professorSubjectSchool')
@@ -65,6 +57,7 @@ async function obtainProfessorsByFilter(filters: any) {
 async function obtainSubjectsByFilter(filters: any) {
   const school = filters?.school;
   let subjectsList;
+
   if (school) {
     subjectsList = await getRepository(ProfessorSubjectSchoolEntity)
       .createQueryBuilder('professorSubjectSchool')

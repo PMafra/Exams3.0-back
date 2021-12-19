@@ -14,7 +14,7 @@ async function obtainFilteredExams(query: any) {
   const subject = query?.subject;
   let examsList;
 
-  if (professor) {
+  if (professor && !subject) {
     examsList = await getRepository(ExamEntity)
       .createQueryBuilder('exam')
       .where('school.school = :school', { school })
@@ -26,7 +26,8 @@ async function obtainFilteredExams(query: any) {
       .leftJoin('exam.category', 'category')
       .select(['exam.id AS id', 'exam.title AS title', 'exam.link AS link'])
       .getRawMany();
-  } else {
+  }
+  if (subject && !professor) {
     examsList = await getRepository(ExamEntity)
       .createQueryBuilder('exam')
       .where('school.school = :school', { school })
