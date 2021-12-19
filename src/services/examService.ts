@@ -2,26 +2,42 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import { getManager } from 'typeorm';
+import { getManager, getRepository } from 'typeorm';
+import ExamEntity from '../entities/exams';
 
 async function obtainFilteredExams(query: any) {
   const school = query?.school;
   const category = query?.category;
   const professor = query?.professor;
   const subject = query?.subject;
-
   let examsList;
 
   if (professor) {
-    examsList = await getManager().query(`
-        SELECT exams.title, exams.link FROM exams JOIN categories ON categories.id = exams.category_id JOIN professors_subjects_schools ON professors_subjects_schools.id = exams.professor_subject_school_id JOIN schools ON schools.id = professors_subjects_schools.school_id JOIN professors ON professors.id = professors_subjects_schools.professor_id WHERE schools.school = $1 AND categories.category = $2 AND professors.professor = $3;
-  `, [school, category, professor]);
+    examsList = await getRepository(ExamEntity)
+      .createQueryBuilder('exam')
+      .where('school.school = :school', { school })
+      .andWhere('category.category = :category', { category })
+      .andWhere('professor.professor = :professor', { professor })
+      .leftJoin('exam.professorSubjectSchool', 'professorSubjectSchool')
+      .leftJoin('professorSubjectSchool.professor', 'professor')
+      .leftJoin('professorSubjectSchool.school', 'school')
+      .leftJoin('exam.category', 'category')
+      .select(['exam.id AS id', 'exam.title AS title', 'exam.link AS link'])
+      .getRawMany();
   } else {
-    examsList = await getManager().query(`
-        SELECT exams.title, exams.link FROM exams JOIN categories ON categories.id = exams.category_id JOIN professors_subjects_schools ON professors_subjects_schools.id = exams.professor_subject_school_id JOIN schools ON schools.id = professors_subjects_schools.school_id JOIN subjects ON subjects.id = professors_subjects_schools.subject_id WHERE schools.school = $1 AND categories.category = $2 AND subjects.subject = $3;
-  `, [school, category, subject]);
+    examsList = await getRepository(ExamEntity)
+      .createQueryBuilder('exam')
+      .where('school.school = :school', { school })
+      .andWhere('category.category = :category', { category })
+      .andWhere('subject.subject = :subject', { subject })
+      .leftJoin('exam.professorSubjectSchool', 'professorSubjectSchool')
+      .leftJoin('professorSubjectSchool.subject', 'subject')
+      .leftJoin('professorSubjectSchool.school', 'school')
+      .leftJoin('exam.category', 'category')
+      .select(['exam.id AS id', 'exam.title AS title', 'exam.link AS link'])
+      .getRawMany();
   }
-  console.log(examsList);
+
   return examsList;
 }
 

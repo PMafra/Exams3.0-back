@@ -42,7 +42,7 @@ async function obtainProfessorsByFilter(filters: any) {
       .where('school.school = :school', { school })
       .leftJoin('professorSubjectSchool.professor', 'professor')
       .leftJoin('professorSubjectSchool.school', 'school')
-      .select(['professor.professor AS professor', 'professor.id AS id'])
+      .select(['professor.id AS id', 'professor.professor AS professor'])
       .getRawMany();
   }
   if (school && subject) {
@@ -53,7 +53,7 @@ async function obtainProfessorsByFilter(filters: any) {
       .leftJoin('professorSubjectSchool.professor', 'professor')
       .leftJoin('professorSubjectSchool.school', 'school')
       .leftJoin('professorSubjectSchool.subject', 'subject')
-      .select(['professor.professor AS professor', 'professor.id AS id'])
+      .select(['professor.id AS id', 'professor.professor AS professor'])
       .getRawMany();
   }
 
@@ -71,7 +71,7 @@ async function obtainSubjectsByFilter(filters: any) {
       .where('school.school = :school', { school })
       .leftJoin('professorSubjectSchool.subject', 'subject')
       .leftJoin('professorSubjectSchool.school', 'school')
-      .select(['subject.subject AS subject', 'subject.id AS id'])
+      .select(['subject.id AS id', 'subject.subject AS subject'])
       .getRawMany();
   }
 
