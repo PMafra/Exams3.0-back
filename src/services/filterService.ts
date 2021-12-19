@@ -19,13 +19,13 @@ async function obtainCategories() {
 }
 
 function getUniqueList(arr: any[]) {
-  return [...new Map(arr.slice().reverse().map((key: any) => [key.id, key])).values()].reverse();
+  return [...new Map(arr?.slice().reverse().map((key: any) => [key.id, key])).values()].reverse();
 }
 
 async function obtainProfessorsByFilter(query: any) {
   const school = query?.school;
   const subject = query?.subject;
-  console.log(school, subject);
+
   let professorsList;
   if (school && !subject) {
     professorsList = await getManager().query(`
@@ -37,9 +37,8 @@ async function obtainProfessorsByFilter(query: any) {
     SELECT professors.professor, professors.id FROM professors_subjects_schools JOIN professors ON professors.id = professors_subjects_schools.professor_id JOIN schools ON schools.id = professors_subjects_schools.school_id JOIN subjects ON subjects.id = professors_subjects_schools.subject_id WHERE schools.school = $1 AND subjects.subject = $2;
   `, [school, subject]);
   }
-  console.log(professorsList);
+
   const uniqueProfessorsList = getUniqueList(professorsList);
-  console.log(uniqueProfessorsList);
 
   return uniqueProfessorsList;
 }

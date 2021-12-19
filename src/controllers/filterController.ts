@@ -5,8 +5,6 @@ import * as filterService from '../services/filterService';
 
 const getSchools = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const oi = req.query;
-    console.log(oi);
     const schoolsList = await filterService.obtainSchools();
     return res.send(schoolsList);
   } catch (error) {
@@ -26,9 +24,9 @@ const getCategories = async (req: Request, res: Response, next: NextFunction) =>
 };
 
 const getProfessorsByFilter = async (req: Request, res: Response, next: NextFunction) => {
-  const allQueries = req.query;
-  console.log(allQueries, 'oi');
   try {
+    const allQueries = req.query;
+    console.log(allQueries, 'oi');
     const professorsList = await filterService.obtainProfessorsByFilter(req.query);
     return res.send(professorsList);
   } catch (error) {
