@@ -3,7 +3,7 @@ import * as examController from '../controllers/examController';
 
 const router = Router();
 
-router.post('', examController.getFilteredExams);
-router.post('/add', examController.addNewExam);
+router.get('', examController.getFilteredExams);
+router.post('', examController.addNewExam);
 
 export default router;

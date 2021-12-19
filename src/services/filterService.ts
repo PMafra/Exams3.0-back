@@ -1,33 +1,35 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import { getRepository, getManager } from 'typeorm';
+import { getManager } from 'typeorm';
 import SchoolEntity from '../entities/schools';
 import CategoryEntity from '../entities/categories';
+import { selector } from '../infra/selectors';
 
 async function obtainSchools() {
-  const schoolsList = await getRepository(SchoolEntity).find();
+  const schoolsList = await selector(SchoolEntity);
 
   return schoolsList;
 }
 
 async function obtainCategories() {
-  const categoriesList = await getRepository(CategoryEntity).find();
+  const categoriesList = await selector(CategoryEntity);
 
   return categoriesList;
 }
 
 function getUniqueList(arr: any[]) {
-  return [...new Map(arr.slice().reverse().map((key: any) => [key.id, key])).values()].reverse();
+  return [...new Map(arr?.slice().reverse().map((key: any) => [key.id, key])).values()].reverse();
 }
 
-async function obtainProfessorsByFilter(body: any) {
-  const school = body?.chosenSchool;
-  const subject = body?.chosenSubject;
+async function obtainProfessorsByFilter(query: any) {
+  const school = query?.school;
+  const subject = query?.subject;
+
   let professorsList;
   if (school && !subject) {
     professorsList = await getManager().query(`
-    SELECT professors.professor, schools.school FROM professors_subjects_schools JOIN professors ON professors.id = professors_subjects_schools.professor_id JOIN schools ON schools.id = professors_subjects_schools.school_id WHERE schools.school = $1;
+    SELECT professors.professor, professors.id FROM professors_subjects_schools JOIN professors ON professors.id = professors_subjects_schools.professor_id JOIN schools ON schools.id = professors_subjects_schools.school_id WHERE schools.school = $1;
   `, [school]);
   }
   if (school && subject) {
@@ -41,8 +43,8 @@ async function obtainProfessorsByFilter(body: any) {
   return uniqueProfessorsList;
 }
 
-async function obtainSubjectsByFilter(body: any) {
-  const school = body?.chosenSchool;
+async function obtainSubjectsByFilter(query: any) {
+  const school = query?.school;
   let subjectsList;
 
   if (school) {
