@@ -17,15 +17,21 @@ class ProfessorSubjectSchoolEntity {
   @OneToMany(() => ExamsEntity, (exam: any) => (exam.professorSubjectSchool))
     exams: ExamsEntity[];
 
-  @ManyToOne(() => ProfessorEntity, (professor: any) => (professor.professorsSubjectsSchools))
+  @ManyToOne(() => ProfessorEntity, (professor: any) => (professor.professorsSubjectsSchools), {
+    eager: true,
+  })
   @JoinColumn({ name: 'professor_id' })
     professor: ProfessorEntity;
 
-  @ManyToOne(() => SubjectEntity, (subject: any) => (subject.professorsSubjectsSchools))
+  @ManyToOne(() => SubjectEntity, (subject: any) => (subject.professorsSubjectsSchools), {
+    eager: true,
+  })
   @JoinColumn({ name: 'subject_id' })
     subject: SubjectEntity;
 
-  @ManyToOne(() => SchoolEntity, (school: any) => (school.professorsSubjectsSchools))
+  @ManyToOne(() => SchoolEntity, (school: any) => (school.professorsSubjectsSchools), {
+    eager: true,
+  })
   @JoinColumn({ name: 'school_id' })
     school: SchoolEntity;
 }

@@ -18,11 +18,15 @@ class ExamEntity {
     @Column()
       link: string;
 
-    @ManyToOne(() => CategoryEntity, (category: any) => (category.exams))
+    @ManyToOne(() => CategoryEntity, (category: any) => (category.exams), {
+      eager: true,
+    })
     @JoinColumn({ name: 'category_id' })
       category: CategoryEntity;
 
-    @ManyToOne(() => ProfessorSubjectSchoolEntity, (professorSubjectSchool: any) => (professorSubjectSchool.exams))
+    @ManyToOne(() => ProfessorSubjectSchoolEntity, (professorSubjectSchool: any) => (professorSubjectSchool.exams), {
+      eager: true,
+    })
     @JoinColumn({ name: 'professor_subject_school_id' })
       professorSubjectSchool: ProfessorSubjectSchoolEntity;
   }
