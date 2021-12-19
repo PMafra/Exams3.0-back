@@ -26,8 +26,10 @@ const getCategories = async (req: Request, res: Response, next: NextFunction) =>
 };
 
 const getProfessorsByFilter = async (req: Request, res: Response, next: NextFunction) => {
+  const allQueries = req.query;
+  console.log(allQueries, 'oi');
   try {
-    const professorsList = await filterService.obtainProfessorsByFilter(req.body);
+    const professorsList = await filterService.obtainProfessorsByFilter(req.query);
     return res.send(professorsList);
   } catch (error) {
     logger.error(error);
@@ -36,9 +38,6 @@ const getProfessorsByFilter = async (req: Request, res: Response, next: NextFunc
 };
 
 const getSubjectsByFilter = async (req: Request, res: Response, next: NextFunction) => {
-  const allQueries = req.query;
-  console.log(allQueries, 'oi');
-
   try {
     const subjectsList = await filterService.obtainSubjectsByFilter(req.query);
     return res.send(subjectsList);
