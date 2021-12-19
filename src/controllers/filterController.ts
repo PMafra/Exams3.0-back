@@ -2,6 +2,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { logger } from '../utils/logger';
 import * as filterService from '../services/filterService';
+import { queryFiltersSchema } from '../validations/joiSchemas';
+import * as validationService from '../services/validationService';
 
 const getSchools = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -24,10 +26,12 @@ const getCategories = async (req: Request, res: Response, next: NextFunction) =>
 };
 
 const getProfessorsByFilter = async (req: Request, res: Response, next: NextFunction) => {
+  const allFilters = req.query;
+  await validationService.validateWithJoi({
+    object: allFilters, schema: queryFiltersSchema,
+  });
   try {
-    const allQueries = req.query;
-    console.log(allQueries, 'oi');
-    const professorsList = await filterService.obtainProfessorsByFilter(req.query);
+    const professorsList = await filterService.obtainProfessorsByFilter(allFilters);
     return res.send(professorsList);
   } catch (error) {
     logger.error(error);
@@ -36,8 +40,12 @@ const getProfessorsByFilter = async (req: Request, res: Response, next: NextFunc
 };
 
 const getSubjectsByFilter = async (req: Request, res: Response, next: NextFunction) => {
+  const allFilters = req.query;
+  await validationService.validateWithJoi({
+    object: allFilters, schema: queryFiltersSchema,
+  });
   try {
-    const subjectsList = await filterService.obtainSubjectsByFilter(req.query);
+    const subjectsList = await filterService.obtainSubjectsByFilter(allFilters);
     return res.send(subjectsList);
   } catch (error) {
     logger.error(error);

@@ -34,7 +34,6 @@ async function insertNewExam(newExamInfo: any) {
     chosenSubject,
     chosenSchool,
   } = newExamInfo;
-  console.log(newExamInfo);
 
   const professorsSubjectsSchoolsId = await getManager().query(`
     SELECT professors_subjects_schools.id FROM professors_subjects_schools JOIN subjects ON subjects.id = professors_subjects_schools.subject_id JOIN schools ON schools.id = professors_subjects_schools.school_id JOIN professors ON professors.id = professors_subjects_schools.professor_id WHERE schools.school = $1 AND professors.professor = $2 AND subjects.subject = $3;
