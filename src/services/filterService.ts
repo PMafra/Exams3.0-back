@@ -22,9 +22,9 @@ function getUniqueList(arr: any[]) {
   return [...new Map(arr?.slice().reverse().map((key: any) => [key.id, key])).values()].reverse();
 }
 
-async function obtainProfessorsByFilter(query: any) {
-  const school = query?.school;
-  const subject = query?.subject;
+async function obtainProfessorsByFilter(filters: any) {
+  const school = filters?.school;
+  const subject = filters?.subject;
 
   let professorsList;
   if (school && !subject) {
@@ -43,8 +43,8 @@ async function obtainProfessorsByFilter(query: any) {
   return uniqueProfessorsList;
 }
 
-async function obtainSubjectsByFilter(query: any) {
-  const school = query?.school;
+async function obtainSubjectsByFilter(filters: any) {
+  const school = filters?.school;
   let subjectsList;
 
   if (school) {
