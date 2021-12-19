@@ -2,8 +2,10 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import { getManager, getRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 import ExamEntity from '../entities/exams';
+import CategoryEntity from '../entities/categories';
+import ProfessorSubjectSchoolEntity from '../entities/professorsSubjectsSchools';
 
 async function obtainFilteredExams(query: any) {
   const school = query?.school;
@@ -51,18 +53,32 @@ async function insertNewExam(newExamInfo: any) {
     chosenSchool,
   } = newExamInfo;
 
-  const professorsSubjectsSchoolsId = await getManager().query(`
-    SELECT professors_subjects_schools.id FROM professors_subjects_schools JOIN subjects ON subjects.id = professors_subjects_schools.subject_id JOIN schools ON schools.id = professors_subjects_schools.school_id JOIN professors ON professors.id = professors_subjects_schools.professor_id WHERE schools.school = $1 AND professors.professor = $2 AND subjects.subject = $3;
-`, [chosenSchool, chosenProfessor, chosenSubject]);
+  const { id: professorsSubjectsSchoolsId } = await getRepository(ProfessorSubjectSchoolEntity).findOne({
+    where: {
+      school: { school: chosenSchool },
+      professor: { professor: chosenProfessor },
+      subject: { subject: chosenSubject },
+    },
+    relations: ['school', 'professor', 'subject'],
+  });
 
-  const categoryId = await getManager().query(`
-    SELECT categories.id FROM categories WHERE categories.category = $1;
-`, [chosenCategory]);
-  console.log(categoryId, professorsSubjectsSchoolsId);
+  const { id: categoryId } = await getRepository(CategoryEntity).findOne({ category: chosenCategory });
 
-  const result = await getManager().query(`
-    INSERT INTO exams (title, link, category_id, professor_subject_school_id) VALUES ($1, $2, $3, $4);
-`, [newExamTitle, newExamUrl, Number(categoryId[0].id), Number(professorsSubjectsSchoolsId[0].id)]);
+  const result = await getRepository(ExamEntity)
+    .insert({
+      title: newExamTitle,
+      link: newExamUrl,
+      category: {
+        id: categoryId,
+        category: chosenCategory,
+      },
+      professorSubjectSchool: {
+        id: professorsSubjectsSchoolsId,
+        professor: chosenProfessor,
+        subject: chosenSubject,
+        school: chosenSchool,
+      },
+    });
 
   return result;
 }
