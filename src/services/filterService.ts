@@ -42,8 +42,8 @@ async function obtainProfessorsByFilter(body: any) {
   return uniqueProfessorsList;
 }
 
-async function obtainSubjectsByFilter(body: any) {
-  const school = body?.chosenSchool;
+async function obtainSubjectsByFilter(query: any) {
+  const school = query?.school;
   let subjectsList;
 
   if (school) {
