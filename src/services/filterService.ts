@@ -1,6 +1,4 @@
-/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-console */
 import { getRepository } from 'typeorm';
 import SchoolEntity from '../entities/schools';
 import CategoryEntity from '../entities/categories';

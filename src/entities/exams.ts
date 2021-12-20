@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable max-len */
 /* eslint-disable import/no-cycle */
 import {
   Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne,
@@ -24,9 +23,13 @@ class ExamEntity {
     @JoinColumn({ name: 'category_id' })
       category: CategoryEntity;
 
-    @ManyToOne(() => ProfessorSubjectSchoolEntity, (professorSubjectSchool: any) => (professorSubjectSchool.exams), {
-      eager: true,
-    })
+    @ManyToOne(
+      () => ProfessorSubjectSchoolEntity,
+      (professorSubjectSchool: any) => (professorSubjectSchool.exams),
+      {
+        eager: true,
+      },
+    )
     @JoinColumn({ name: 'professor_subject_school_id' })
       professorSubjectSchool: ProfessorSubjectSchoolEntity;
   }
