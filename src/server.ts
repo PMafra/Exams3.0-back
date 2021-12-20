@@ -1,4 +1,3 @@
-import './setup';
 import app, { init } from './app';
 import { logger } from './utils/logger';
 
