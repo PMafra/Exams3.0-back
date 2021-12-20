@@ -18,13 +18,13 @@ afterAll(async () => {
   await getConnection().close();
 });
 
-describe('/filters route tests', () => {
+describe('/filters route integration tests', () => {
   it('should answer with all categories', async () => {
-    const result = await agent.get('/filters/categories');
+    const response = await agent.get('/filters/categories');
     const mockCategoriesList = ['E1', 'E2', 'E3', '2call', 'Others'];
 
-    expect(result.body).toHaveLength(5);
-    result.body.forEach((object: any, i: number) => {
+    expect(response.body).toHaveLength(5);
+    response.body.forEach((object: any, i: number) => {
       expect(object).toEqual(
         expect.objectContaining({
           id: expect.any(Number),
@@ -33,19 +33,19 @@ describe('/filters route tests', () => {
       );
       expect(object.category).toEqual(mockCategoriesList[i]);
     });
-    expect(result.status).toBe(200);
+    expect(response.status).toBe(200);
   });
 
   it('should answer with all schools', async () => {
-    const result = await agent.get('/filters/schools');
+    const response = await agent.get('/filters/schools');
     const mockSchoolsList = [
       'Federal Fluminense University',
       'Rio de Janeiro Federal University',
       'São Paulo Federal University',
     ];
 
-    expect(result.body).toHaveLength(3);
-    result.body.forEach((object: any, i: number) => {
+    expect(response.body).toHaveLength(3);
+    response.body.forEach((object: any, i: number) => {
       expect(object).toEqual(
         expect.objectContaining({
           id: expect.any(Number),
@@ -54,13 +54,13 @@ describe('/filters route tests', () => {
       );
       expect(object.school).toEqual(mockSchoolsList[i]);
     });
-    expect(result.status).toBe(200);
+    expect(response.status).toBe(200);
   });
 
   it('should answer with professors filtered by queries', async () => {
-    const result = await agent.get('/filters/professors?school=Federal Fluminense University&subject=Medicine');
+    const response = await agent.get('/filters/professors?school=Federal Fluminense University&subject=Medicine');
 
-    result.body.forEach((object: any) => {
+    response.body.forEach((object: any) => {
       expect(object).toEqual(
         expect.objectContaining({
           id: expect.any(Number),
@@ -68,13 +68,13 @@ describe('/filters route tests', () => {
         }),
       );
     });
-    expect(result.status).toBe(200);
+    expect(response.status).toBe(200);
   });
 
   it('should answer with subjects filtered by queries', async () => {
-    const result = await agent.get('/filters/subjects?school=Federal Fluminense University');
+    const response = await agent.get('/filters/subjects?school=Federal Fluminense University');
 
-    result.body.forEach((object: any) => {
+    response.body.forEach((object: any) => {
       expect(object).toEqual(
         expect.objectContaining({
           id: expect.any(Number),
@@ -82,7 +82,7 @@ describe('/filters route tests', () => {
         }),
       );
     });
-    expect(result.status).toBe(200);
+    expect(response.status).toBe(200);
   });
 
   // it('should answer with all categories', async () => {
