@@ -9,7 +9,11 @@ import 'reflect-metadata';
 import connectDatabase from './dbconfig';
 
 const app = express();
-app.use(cors());
+app.use((req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  app.use(cors());
+});
 app.use(express.json());
 
 app.use(middlewareInfo);
