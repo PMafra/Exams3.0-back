@@ -1,7 +1,7 @@
 import faker from 'faker';
-import { getRepository } from 'typeorm';
-import Example from '../../src/entities/example';
-import { IUserDB } from '../../src/interfaces/user';
+// import { getRepository } from 'typeorm';
+// import Example from '../../src/entities/example';
+// import { IUserDB } from '../../src/interfaces/user';
 
 class User {
   name: string;
@@ -22,18 +22,18 @@ const generateRandomUser = () => ({
   group: faker.datatype.string(),
 });
 
-async function createUser(): Promise<IUserDB> {
-  const user = await getRepository(Example).create({
-    name: 'Pedro Mafra',
-  });
+// async function createUser(): Promise<IUserDB> {
+//   const user = await getRepository(Example).create({
+//     name: 'Pedro Mafra',
+//   });
 
-  await getRepository(Example).save(user);
+//   await getRepository(Example).save(user);
 
-  return user;
-}
+//   return user;
+// }
 
 export {
-  createUser,
+  // createUser,
   User,
   generateRandomUser,
 };

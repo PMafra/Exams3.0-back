@@ -45,38 +45,6 @@ CREATE TABLE "categories" (
 ) WITH (
   OIDS=FALSE
 );
-CREATE TABLE "sessions" (
-	"id" serial NOT NULL,
-	"token" TEXT NOT NULL,
-	"user_id" integer NOT NULL,
-	CONSTRAINT "sessions_pk" PRIMARY KEY ("id")
-) WITH (
-  OIDS=FALSE
-);
-CREATE TABLE "users" (
-	"id" serial NOT NULL,
-	"code" TEXT NOT NULL,
-	"nickname" TEXT NOT NULL,
-	"avatar_id" integer NOT NULL,
-	CONSTRAINT "users_pk" PRIMARY KEY ("id")
-) WITH (
-  OIDS=FALSE
-);
-CREATE TABLE "avatars" (
-	"id" serial NOT NULL,
-	"url" TEXT NOT NULL,
-	CONSTRAINT "avatars_pk" PRIMARY KEY ("id")
-) WITH (
-  OIDS=FALSE
-);
-CREATE TABLE "users_exams" (
-	"id" serial NOT NULL,
-	"user_id" integer NOT NULL,
-	"exam_id" integer NOT NULL,
-	CONSTRAINT "users_exams_pk" PRIMARY KEY ("id")
-) WITH (
-  OIDS=FALSE
-);
 ALTER TABLE "exams" ADD CONSTRAINT "exams_fk0" FOREIGN KEY ("category_id") REFERENCES "categories"("id");
 ALTER TABLE "exams" ADD CONSTRAINT "exams_fk1" FOREIGN KEY ("professor_subject_school_id") REFERENCES "professors_subjects_schools"("id");
 ALTER TABLE "professors_subjects_schools" ADD CONSTRAINT "professors_subjects_schools_fk0" FOREIGN KEY ("professor_id") REFERENCES "professors"("id");
