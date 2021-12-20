@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /* eslint-disable import/no-cycle */
 import {
   Entity, PrimaryGeneratedColumn, Column, OneToMany,
@@ -13,7 +12,10 @@ class ProfessorEntity {
   @Column()
     professor: string;
 
-  @OneToMany(() => ProfessorSubjectSchoolEntity, (professorSubjectSchool) => professorSubjectSchool.professor)
+  @OneToMany(
+    () => ProfessorSubjectSchoolEntity,
+    (professorSubjectSchool) => professorSubjectSchool.professor,
+  )
     professorsSubjectsSchools: ProfessorSubjectSchoolEntity[];
 }
 

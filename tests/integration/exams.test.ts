@@ -2,18 +2,13 @@
 import '../../src/setup';
 import supertest from 'supertest';
 import { getConnection } from 'typeorm';
-// import clearDatabase from '../utils/clearDatabase';
 import app, { init } from '../../src/app';
-// import { createUser } from '../factories/userFactory';
 
 const agent = supertest(app);
 
 beforeAll(async () => {
   await init();
 });
-// beforeEach(async () => {
-//   await clearDatabase();
-// });
 afterAll(async () => {
   await getConnection().close();
 });

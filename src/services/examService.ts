@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-console */
 import { getRepository } from 'typeorm';
 import ExamEntity from '../entities/exams';
 import CategoryEntity from '../entities/categories';
@@ -54,7 +51,9 @@ async function insertNewExam(newExamInfo: any) {
     chosenSchool,
   } = newExamInfo;
 
-  const { id: professorsSubjectsSchoolsId } = await getRepository(ProfessorSubjectSchoolEntity).findOne({
+  const {
+    id: professorsSubjectsSchoolsId,
+  } = await getRepository(ProfessorSubjectSchoolEntity).findOne({
     where: {
       school: { school: chosenSchool },
       professor: { professor: chosenProfessor },
@@ -63,7 +62,9 @@ async function insertNewExam(newExamInfo: any) {
     relations: ['school', 'professor', 'subject'],
   });
 
-  const { id: categoryId } = await getRepository(CategoryEntity).findOne({ category: chosenCategory });
+  const {
+    id: categoryId,
+  } = await getRepository(CategoryEntity).findOne({ category: chosenCategory });
 
   const result = await getRepository(ExamEntity)
     .insert({
