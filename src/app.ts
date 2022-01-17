@@ -1,12 +1,12 @@
 import './setup';
 import express from 'express';
 import cors from 'cors';
-import middlewareError from './middlewares/errors';
+import 'reflect-metadata';
+import connectDatabase from './database';
 import filterRouter from './routers/filterRouter';
 import examRouter from './routers/examRouter';
+import middlewareError from './middlewares/errors';
 import middlewareInfo from './middlewares/infoLogger';
-import 'reflect-metadata';
-import connectDatabase from './dbconfig';
 
 const app = express();
 app.use(cors());
